@@ -21,10 +21,10 @@
 - [x] Reusable trainer with early stopping in `src/training/trainer.py`
 - [x] Base entrypoint `train.py`
 
-### ⏳ Step 2: Classical Baselines, Ranking Metrics & Benchmark Runner
-- [ ] Classical link prediction heuristics (`src/evaluation/baselines.py`): Common Neighbors (CN), Adamic-Adar (AA), Jaccard Coefficient (JC), Preferential Attachment (PA), Resource Allocation (RA)
-- [ ] Recommendation ranking metrics (`src/evaluation/metrics.py`): Precision@K, Recall@K, NDCG@K, MRR
-- [ ] Multi-seed (5 seeds) & multi-split runner (`benchmark.py`) saving output to `results/benchmark_summary.md`
+### ✅ Step 2: Classical Baselines, Ranking Metrics & Benchmark Runner
+- [x] Classical link prediction heuristics (`src/evaluation/baselines.py`): Common Neighbors (CN), Adamic-Adar (AA), Jaccard Coefficient (JC), Preferential Attachment (PA), Resource Allocation (RA)
+- [x] Recommendation ranking metrics (`src/evaluation/metrics.py`): Precision@K, Recall@K, NDCG@K, MRR (+ fixed missing `Callable` import for `bootstrap_confidence_interval`)
+- [x] Multi-seed (5 seeds) & multi-split runner (`benchmark.py`) saving output to `results/benchmark_summary.md`
 
 ### 📋 Step 3: Anti-Over-Smoothing & Scalable Positional Encodings
 - [ ] Structural positional encodings: RWPE (Random Walk), LapPE (Laplacian eigenvectors) in `src/data/transforms.py`

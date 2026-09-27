@@ -1,0 +1,90 @@
+# Default configuration for GNN Friend Recommendation System
+# All hyperparameters are organized by category
+
+seed: 42
+device: "auto"  # auto, cuda, cpu
+
+# Dataset configuration
+dataset:
+  name: "facebook"  # facebook, twitter, gplus, ogbl-collab, ogbl-ppa, ogbl-ddi
+  root: "./data"
+  val_ratio: 0.05
+  test_ratio: 0.10
+  neg_sampling_ratio: 1.0
+
+# Feature engineering configuration
+features:
+  type: "structural"  # structural, identity, rwpe, laplacian_pe, learnable
+  structural: ["degree", "pagerank"]  # Used when type=structural
+  rwpe_length: 16
+  laplacian_k: 16
+  learnable_dim: 64
+
+# Model configuration
+model:
+  type: "gcn"  # gcn, gat, gatv2, gin, graphconv, lightgcn, sage
+  hidden_channels: 128
+  out_channels: 64
+  num_layers: 2
+  dropout: 0.3
+  use_residual: false
+  use_layer_norm: false
+  # GAT-specific
+  heads: 4
+  attn_dropout: 0.0
+  # SAGE-specific
+  aggr: "mean"
+
+# Link predictor configuration
+predictor:
+  type: "dot"  # dot, cosine, bilinear, mlp, hadamard_mlp
+  hidden_channels: 128
+  num_layers: 2
+  dropout: 0.3
+
+# Training configuration
+training:
+  epochs: 100
+  batch_size: -1  # -1 for full-batch
+  lr: 0.005
+  weight_decay: 0.0
+  optimizer: "adam"  # adam, adamw, sgd
+  loss: "bce"  # bce, bpr, focal
+  grad_clip: 1.0
+  log_interval: 10
+
+# Early stopping configuration
+early_stopping:
+  enabled: true
+  patience: 10
+  min_delta: 1e-4
+  mode: "max"  # max for AUC/AP, min for loss
+  restore_best_weights: true
+
+# Learning rate scheduler configuration
+lr_scheduler:
+  enabled: true
+  mode: "max"
+  factor: 0.5
+  patience: 5
+  min_lr: 1e-6
+
+# Evaluation configuration
+evaluation:
+  metrics: ["auc", "ap", "precision@10", "recall@10", "ndcg@10", "hit@10", "mrr"]
+  ks: [5, 10, 20, 50]
+  run_baselines: true
+  num_seeds: 5
+
+# Logging configuration
+logging:
+  level: "INFO"
+  use_wandb: false
+  wandb_project: "gnn-friend-rec"
+  wandb_entity: null
+  log_dir: "./logs"
+
+# Checkpoint configuration
+checkpoint:
+  save_dir: "./checkpoints"
+  save_best_only: true
