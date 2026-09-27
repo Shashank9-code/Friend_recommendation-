@@ -176,9 +176,15 @@ def train_and_evaluate_neural(
         test_data.x = torch.eye(test_data.num_nodes)
         in_channels = train_data.num_nodes
 
-    # LightGCN uses node count as in_channels (embedding lookup)
+    # LightGCN uses nn.Embedding: needs integer node indices, not float features
     if model_type == "lightgcn":
         in_channels = train_data.num_nodes
+        train_data = train_data.clone()
+        val_data = val_data.clone()
+        test_data = test_data.clone()
+        train_data.x = torch.arange(train_data.num_nodes, dtype=torch.long)
+        val_data.x = torch.arange(val_data.num_nodes, dtype=torch.long)
+        test_data.x = torch.arange(test_data.num_nodes, dtype=torch.long)
 
     encoder = create_encoder(
         model_type=model_type,
